@@ -83,19 +83,19 @@ public class ButtonBehaviour : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     private void TriggerShortClick()
     {
-        Debug.Log("Action 1 — Short Click");
+        Debug.Log("Action A — Short Click");
         ResetToIdle();
     }
 
     private void TriggerLongPress()
     {
-        Debug.Log("Action 2 — Long Press");
+        Debug.Log("Action B — Long Press");
         ResetToIdle();
     }
 
     private void TriggerDoubleClick()
     {
-        Debug.Log("Action 3 — Double Click");
+        Debug.Log("Action C — Double Click");
         ResetToIdle();
     }
 
