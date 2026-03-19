@@ -32,7 +32,7 @@ public class ButtonBehaviour : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             _state = ButtonState.WaitingForRelease;
 
             _longPressCts = new CancellationTokenSource();
-            WaitForLongPress(_longPressCts.Token).Forget();
+            WaitForLongPressAfterShort(_longPressCts.Token).Forget();
         }
     }
 
@@ -67,6 +67,21 @@ public class ButtonBehaviour : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         CancelDoubleClickTimer();
         _isSecondPress = false;
         TriggerLongPress();
+    }
+
+
+    private async UniTaskVoid WaitForLongPressAfterShort(CancellationToken token)
+    {
+        bool cancelled = await UniTask
+            .Delay(System.TimeSpan.FromSeconds(LONG_PRESS_THRESHOLD), cancellationToken: token)
+            .SuppressCancellationThrow();
+
+        if (cancelled) return;
+
+
+        _isSecondPress = false;
+        TriggerShortClick();  
+        TriggerLongPress();   
     }
 
     private async UniTaskVoid WaitForDoubleClickWindow(CancellationToken token)
